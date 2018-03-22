@@ -1,0 +1,8 @@
+{
+  "name": "react-data-grid-addons",
+  "version": "3.0.11",
+  "private": true,
+  "dependencies": {
+    "react-data-grid": "^3.0.11"
+  }
+}

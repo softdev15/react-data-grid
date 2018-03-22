@@ -4,7 +4,8 @@ lib
 **/build
 test/reports
 test/coverage
-dist
+**/dist/**/react*.js
+**/react-data-grid-examples/dist
 .npmrc
 npm-debug.log
 lerna-debug.log
