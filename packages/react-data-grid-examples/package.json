@@ -1,6 +1,6 @@
 {
   "name": "@chilangomax/react-data-grid-examples",
-  "version": "3.0.11",
+  "version": "3.0.12",
   "description": "A set of examples for the grid",
   "main": "main.js",
   "scripts": {
@@ -21,8 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "immutability-helper": "^2.4.0",
-    "@chilangomax/react-data-grid": "^3.0.11",
-    "@chilangomax/react-data-grid-addons": "^3.0.11"
+    "@chilangomax/react-data-grid": "^3.0.12",
+    "@chilangomax/react-data-grid-addons": "^3.0.12"
   },
   "devDependencies": {
     "bootstrap": "^3.2.0",
