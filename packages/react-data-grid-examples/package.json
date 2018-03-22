@@ -1,5 +1,5 @@
 {
-  "name": "react-data-grid-examples",
+  "name": "@chilangomax/react-data-grid-examples",
   "version": "3.0.11",
   "description": "A set of examples for the grid",
   "main": "main.js",
@@ -14,12 +14,15 @@
     "examples",
     "react-data-grid-addons"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Adazzle",
   "license": "MIT",
   "dependencies": {
     "immutability-helper": "^2.4.0",
-    "react-data-grid": "^3.0.11",
-    "react-data-grid-addons": "^3.0.11"
+    "@chilangomax/react-data-grid": "^3.0.11",
+    "@chilangomax/react-data-grid-addons": "^3.0.11"
   },
   "devDependencies": {
     "bootstrap": "^3.2.0",
