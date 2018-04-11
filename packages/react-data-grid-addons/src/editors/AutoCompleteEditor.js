@@ -20,7 +20,7 @@ class AutoCompleteEditor extends React.Component {
     valueParams: PropTypes.arrayOf(PropTypes.string),
     column: PropTypes.shape(ExcelColumn),
     resultIdentifier: PropTypes.string,
-    search: PropTypes.string,
+    search: PropTypes.func,
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
     editorDisplayValue: PropTypes.func
