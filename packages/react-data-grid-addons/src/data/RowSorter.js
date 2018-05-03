@@ -2,7 +2,11 @@ import { utils } from 'react-data-grid';
 const { getMixedTypeValueRetriever, isImmutableCollection } = utils;
 
 const comparer = (a, b) => {
-  if (a > b) {
+  if (a === null || a === undefined) {
+    return 1;
+  } else if (b === null || b === undefined) {
+    return -1;
+  } else if (a > b) {
     return 1;
   } else if (a < b) {
     return -1;
