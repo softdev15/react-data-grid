@@ -12,7 +12,7 @@ npm install --save react-data-grid
 ## Usage 
 
 ```sh
-import ReactDataGrid from 'react-data-grid';
+import ReactDataGrid from '@chilangomax/react-data-grid';
 
 const columns = [{ key: 'id', name: 'ID' }, { key: 'title', name: 'Title' }];
 const rows = [{ id: 1, title: 'Title 1' }, ...];

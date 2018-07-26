@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { RowsContainer } from 'react-data-grid';
+import { RowsContainer } from '@chilangomax/react-data-grid';
 import { Menu } from '../../';
 const { ContextMenu } = Menu;
 

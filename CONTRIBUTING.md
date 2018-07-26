@@ -53,7 +53,7 @@ react-data-grid is a monorepo containing a total of three packages:
 To manage the multiple packages in the project we use [lerna](https://lernajs.io/), It allows us to have an independent release process for each package,
 individual and shared dependencies between packages and an automated bootstrap system to link packages together during development time.
 This also means that you **must not add any path reference between packages**, when you need to use something in a different package you just need to import it as if
-it was a standard npm package. (for example you if need something from react-data-grid package when developing in react-data-grid-addons you need to `import { something } from 'react-data-grid';`).
+it was a standard npm package. (for example you if need something from react-data-grid package when developing in react-data-grid-addons you need to `import { something } from '@chilangomax/react-data-grid';`).
 
 ### Environment
 We use webpack-dev-server for development. If you're fancy about knowing the tools you’re working with you can find the details about this awesome tool [in here](https://webpack.github.io/docs/webpack-dev-server.html).

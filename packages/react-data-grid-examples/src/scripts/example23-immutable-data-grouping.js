@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('@chilangomax/react-data-grid');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const faker = require('faker');
@@ -7,7 +7,7 @@ const {
   ToolsPanel: { AdvancedToolbar: Toolbar, GroupedColumnsPanel },
   Data: { Selectors },
   Draggable: { Container: DraggableContainer }
- } = require('react-data-grid-addons');
+ } = require('@chilangomax/react-data-grid-addons');
 
 import PropTypes from 'prop-types';
 

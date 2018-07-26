@@ -2,7 +2,7 @@ import 'react-select/dist/react-select.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { utils, shapes } from 'react-data-grid';
+import { utils, shapes } from '@chilangomax/react-data-grid';
 const { isEmptyArray } = utils;
 const { ExcelColumn } = shapes;
 

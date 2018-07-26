@@ -20,7 +20,7 @@ npm install react-data-grid
 
 You can then import react-data-grid in your application as follows:
 ```typescript
-import ReactDataGrid from 'react-data-grid';
+import ReactDataGrid from '@chilangomax/react-data-grid';
 ```
 
 Versions In This Repository

@@ -1,5 +1,5 @@
-const ReactDataGrid = require('react-data-grid');
-const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
+const ReactDataGrid = require('@chilangomax/react-data-grid');
+const { Toolbar, Data: { Selectors } } = require('@chilangomax/react-data-grid-addons');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 
