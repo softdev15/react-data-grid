@@ -387,6 +387,21 @@ class Cell extends React.Component {
     return document.activeElement && document.activeElement.className.indexOf('react-grid-Cell') !== -1;
   };
 
+  isAlreadyFocusedOnThisGrid = () => {
+    let gridWithFocus = document.activeElement && document.activeElement.closest('.react-grid-Container');
+
+    if (
+      // There is a grid ancestor to the currently focused element.
+      gridWithFocus &&
+      // Only assume focus if that grid has the same identifier as 
+      //  the react component ancestor to the current cell.
+      gridWithFocus.dataset.gridIdentifier === this.props.cellMetaData.gridIdentifier
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   checkFocus = () => {
     if (this.isSelected() && !this.isActive()) {
       if (this.props.isScrolling && !this.props.cellMetaData.isScrollingVerticallyWithKeyboard && !this.props.cellMetaData.isScrollingHorizontallyWithKeyboard) {
@@ -396,8 +411,14 @@ class Cell extends React.Component {
       // Otherwise, only focus to the current cell if the currently active node in the document is within the data grid.
       // Meaning focus should not be stolen from elements that the grid doesnt control.
       const cellAutoFocusEnabled = this.props.cellMetaData && this.props.cellMetaData.enableCellAutoFocus;
-      let dataGridDOMNode = this.props.cellMetaData && this.props.cellMetaData.getDataGridDOMNode ? this.props.cellMetaData.getDataGridDOMNode() : null;
-      if (this.isFocusedOnCell() || (cellAutoFocusEnabled && this.isFocusedOnBody()) || (dataGridDOMNode && dataGridDOMNode.contains(document.activeElement))) {
+      
+      // I am replacing both isFocusedOnCell and dataGridDOMNode.contains with isAlreadyFocusedOnThisGrid, because it 
+      //  better encapsulates the semantics and essentially does a lookup in the reverse order from the latter, for which 
+      //  the ref is often null - rendering it useless.
+      if (
+        cellAutoFocusEnabled && this.isFocusedOnBody() ||
+        this.isAlreadyFocusedOnThisGrid()
+      ) {
         let cellDOMNode = this.node;
         if (cellDOMNode) {
           cellDOMNode.focus();
