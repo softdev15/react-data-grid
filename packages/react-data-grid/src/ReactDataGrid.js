@@ -165,6 +165,8 @@ class ReactDataGrid extends React.Component {
       initialState.sortDirection = this.props.sortDirection;
     }
 
+
+    this.gridIdentifier = `G-${Math.floor(Math.random() * 1000000)}}`;
     this.state = initialState;
   }
 
@@ -1185,6 +1187,7 @@ class ReactDataGrid extends React.Component {
 
   render() {
     let cellMetaData = {
+      gridIdentifier: this.gridIdentifier,
       rowKey: this.props.rowKey,
       selected: this.state.selected,
       dragged: this.state.dragged,
@@ -1228,8 +1231,11 @@ class ReactDataGrid extends React.Component {
       gridWidth = '100%';
     }
     return (
-      <div className="react-grid-Container" style={{width: containerWidth}}
-        ref={(node) => { this.grid = node; }}>
+      <div className="react-grid-Container"
+        style={{width: containerWidth}}
+        ref={(node) => { this.grid = node; }}
+        data-grid-identifier={this.gridIdentifier}
+      >
         {toolbar}
         <div className="react-grid-Main">
           <BaseGrid
@@ -1261,10 +1267,11 @@ class ReactDataGrid extends React.Component {
             rowScrollTimeout={this.props.rowScrollTimeout}
             scrollToRowIndex={this.props.scrollToRowIndex}
             contextMenu={this.props.contextMenu}
-            overScan={this.props.overScan} />
-          </div>
+            overScan={this.props.overScan}
+          />
         </div>
-      );
+      </div>
+    );
   }
 }
 
