@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shapes } from 'react-data-grid';
+import { shapes } from '@chilangomax/react-data-grid';
 const { ExcelColumn } = shapes;
 const RuleType = {
   Number: 1,

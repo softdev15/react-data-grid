@@ -1,4 +1,4 @@
-import { utils } from 'react-data-grid';
+import { utils } from '@chilangomax/react-data-grid';
 import Resolver from './RowGrouperResolver';
 const { isImmutableCollection } = utils;
 
@@ -22,13 +22,14 @@ class RowGrouper {
   groupRowsByColumn(rows, columnIndex = 0) {
     let nextColumnIndex = columnIndex;
     let columnName = this.columns.length > 0 && typeof this.columns[columnIndex] === 'string' ? this.columns[columnIndex] : this.columns[columnIndex].name;
-    let groupedRows = this.resolver.getGroupedRows(rows, columnName);
+    let columnKey = this.columns.length > 0 && typeof this.columns[columnIndex] === 'string' ? this.columns[columnIndex] : this.columns[columnIndex].key;
+    let groupedRows = this.resolver.getGroupedRows(rows, columnKey);
     let keys = this.resolver.getGroupKeys(groupedRows);
     let dataviewRows = this.resolver.initRowsCollection();
 
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
-      let isExpanded = this.isRowExpanded(columnName, key);
+      let isExpanded = this.isRowExpanded(columnKey, key);
       let rowGroupHeader = {name: key, __metaData: {isGroup: true, treeDepth: columnIndex, isExpanded: isExpanded, columnGroupName: columnName}};
 
       dataviewRows = this.resolver.addHeaderRow(rowGroupHeader, dataviewRows);

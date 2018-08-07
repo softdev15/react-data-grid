@@ -1,6 +1,6 @@
 import {List} from 'immutable';
 import groupBy from 'lodash/groupBy';
-import { utils } from 'react-data-grid';
+import { utils } from '@chilangomax/react-data-grid';
 const { getMixedTypeValueRetriever, isImmutableMap } = utils;
 
 export default class RowGrouperResolver {

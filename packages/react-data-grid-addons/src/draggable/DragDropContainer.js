@@ -3,7 +3,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import DraggableHeaderCell from './DraggableHeaderCell';
 import RowDragLayer from './RowDragLayer';
-import { utils } from 'react-data-grid';
+import { utils } from '@chilangomax/react-data-grid';
 const { isColumnsImmutable } = utils;
 import PropTypes from 'prop-types';
 

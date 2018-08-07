@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { DropTarget } from 'react-dnd';
 import GroupedColumnButton from './GroupedColumnButton';
-import { _constants } from 'react-data-grid';
+import { _constants } from '@chilangomax/react-data-grid';
 const { DragItemTypes } = _constants;
 
 const propTypes = {
