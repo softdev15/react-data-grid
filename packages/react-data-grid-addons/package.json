@@ -1,6 +1,6 @@
 {
   "name": "@chilangomax/react-data-grid-addons",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "A set of addons for react-data-grid",
   "scripts": {
     "beforepublish": "node ../../ci/publish/replacePackageEntry react-data-grid-addons true",
@@ -18,7 +18,7 @@
   "author": "Adazzle",
   "license": "MIT",
   "dependencies": {
-    "@chilangomax/react-data-grid": "^3.1.4"
+    "@chilangomax/react-data-grid": "^3.1.5"
   },
   "devDependencies": {
     "jquery": "^2.2.4",
