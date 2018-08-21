@@ -166,7 +166,7 @@ class ReactDataGrid extends React.Component {
     }
 
 
-    this.gridIdentifier = `G-${Math.floor(Math.random() * 1000000)}}`;
+    this.gridIdentifier = `G-${Math.floor(Math.random() * 1000000)}`;
     this.state = initialState;
   }
 
