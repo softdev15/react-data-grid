@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import isEqual from 'lodash/isEqual';
 const React = require('react');
 import PropTypes from 'prop-types';
 const joinClasses = require('classnames');
@@ -276,7 +276,7 @@ class Cell extends React.Component {
       let nextColumn = nextProps.column;
       let nextRowMetaData = nextColumn.getRowMetaData(this.getRowData(nextProps), nextColumn);
 
-      hasChangedDependentValues = !_.isEqual(currentRowMetaData, nextRowMetaData);
+      hasChangedDependentValues = !isEqual(currentRowMetaData, nextRowMetaData);
     }
 
     return hasChangedDependentValues;
@@ -393,7 +393,7 @@ class Cell extends React.Component {
     if (
       // There is a grid ancestor to the currently focused element.
       gridWithFocus &&
-      // Only assume focus if that grid has the same identifier as 
+      // Only assume focus if that grid has the same identifier as
       //  the react component ancestor to the current cell.
       gridWithFocus.dataset.gridIdentifier === this.props.cellMetaData.gridIdentifier
     ) {
@@ -411,9 +411,9 @@ class Cell extends React.Component {
       // Otherwise, only focus to the current cell if the currently active node in the document is within the data grid.
       // Meaning focus should not be stolen from elements that the grid doesnt control.
       const cellAutoFocusEnabled = this.props.cellMetaData && this.props.cellMetaData.enableCellAutoFocus;
-      
-      // I am replacing both isFocusedOnCell and dataGridDOMNode.contains with isAlreadyFocusedOnThisGrid, because it 
-      //  better encapsulates the semantics and essentially does a lookup in the reverse order from the latter, for which 
+
+      // I am replacing both isFocusedOnCell and dataGridDOMNode.contains with isAlreadyFocusedOnThisGrid, because it
+      //  better encapsulates the semantics and essentially does a lookup in the reverse order from the latter, for which
       //  the ref is often null - rendering it useless.
       if (
         cellAutoFocusEnabled && this.isFocusedOnBody() ||

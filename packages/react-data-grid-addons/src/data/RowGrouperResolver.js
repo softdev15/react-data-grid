@@ -1,5 +1,5 @@
 import {List} from 'immutable';
-import groupBy from 'lodash/groupBy';
+import groupBy from 'lodash.groupby';
 import { utils } from '@chilangomax/react-data-grid';
 const { getMixedTypeValueRetriever, isImmutableMap } = utils;
 
