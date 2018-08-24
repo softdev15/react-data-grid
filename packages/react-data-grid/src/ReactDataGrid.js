@@ -965,7 +965,7 @@ class ReactDataGrid extends React.Component {
   moveSelectedCell = (e: SyntheticEvent, rowDelta: number, cellDelta: number) => {
     // we need to prevent default as we control grid scroll
     // otherwise it moves every time you left/right which is janky
-    e.preventDefault();
+    if (e) e.preventDefault();
     let rowIdx;
     let idx;
     const { cellNavigationMode } = this.props;
@@ -1198,6 +1198,7 @@ class ReactDataGrid extends React.Component {
       onCellDoubleClick: this.onCellDoubleClick,
       onCommit: this.onCellCommit,
       onCommitCancel: this.setInactive,
+      onMoveSelectedCell: this.moveSelectedCell,
       copied: this.state.copied,
       handleDragEnterRow: this.handleDragEnter,
       handleTerminateDrag: this.handleTerminateDrag,

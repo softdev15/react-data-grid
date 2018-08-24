@@ -217,6 +217,10 @@ class EditorContainer extends React.Component {
       let cellKey = this.props.column.key;
       this.props.cellMetaData.onCommit({cellKey: cellKey, rowIdx: this.props.rowIdx, updated: updated, key: opts.key});
     }
+    
+    if (opts.moveSelectedCell) {
+      this.props.cellMetaData.onMoveSelectedCell(null, 0, 1);
+    }
   };
 
   commitCancel = () => {
