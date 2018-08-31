@@ -36,7 +36,6 @@ const config = {
       amd: 'react-dom'
     },
     'react/addons': 'React',
-    moment: 'moment'
   },
   module: {
     loaders: [
