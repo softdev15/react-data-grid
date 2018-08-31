@@ -5,14 +5,13 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true,
-    "jasmine" : true
+    "node": true
   },
   "globals" : {
     "adz": true,
-    jQuery: true,
-    translate: true,
-    pluralTranslate: true
+    "jQuery": true,
+    "translate": true,
+    "pluralTranslate": true
   },
   "ecmaFeatures": {
     "arrowFunctions": true,
@@ -150,8 +149,7 @@
     }],
     "new-cap": [2, {                 // http://eslint.org/docs/rules/new-cap
       "newIsCap": true,
-      newIsCapExceptions : ['moment'],
-      capIsNewExceptions : ['ContextMenuLayer', 'DragSource', 'DropTarget', 'DragDropContext', 'DragLayer', 'ContainerEditorWrapper']
+      "capIsNewExceptions" : ['ContextMenuLayer', 'DragSource', 'DropTarget', 'DragDropContext', 'DragLayer', 'ContainerEditorWrapper']
     }],
     "no-multiple-empty-lines": [2, { // http://eslint.org/docs/rules/no-multiple-empty-lines
       "max": 2
