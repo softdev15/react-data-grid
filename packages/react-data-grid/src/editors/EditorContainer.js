@@ -1,8 +1,8 @@
-const React                   = require('react');
+const React = require('react');
 import PropTypes from 'prop-types';
-const joinClasses              = require('classnames');
-const SimpleTextEditor        = require('./SimpleTextEditor');
-const isFunction              = require('../utils/isFunction');
+const joinClasses = require('classnames');
+const SimpleTextEditor = require('./SimpleTextEditor');
+const isFunction = require('../utils/isFunction');
 import { isKeyPrintable, isCtrlKeyHeldDown } from '../utils/keyboardUtils';
 
 require('../../../../themes/react-data-grid-core.css');
@@ -28,7 +28,7 @@ class EditorContainer extends React.Component {
     onGridKeyDown: PropTypes.func
   };
 
-  state = {isInvalid: false};
+  state = { isInvalid: false };
   changeCommitted = false;
   changeCanceled = false;
 
@@ -45,7 +45,7 @@ class EditorContainer extends React.Component {
 
   componentWillUnmount() {
     if (!this.changeCommitted && !this.changeCanceled) {
-      this.commit({key: 'Enter'});
+      this.commit({ key: 'Enter' });
     }
   }
 
@@ -102,15 +102,15 @@ class EditorContainer extends React.Component {
       return <CustomEditor ref={editorRef} {...editorProps} />;
     }
 
-    return <SimpleTextEditor ref={editorRef} column={this.props.column} value={this.getInitialValue()} onBlur={this.commit} rowMetaData={this.getRowMetaData()} onKeyDown={() => {}} commit={() => {}}/>;
+    return <SimpleTextEditor ref={editorRef} column={this.props.column} value={this.getInitialValue()} onBlur={this.commit} rowMetaData={this.getRowMetaData()} onKeyDown={() => { }} commit={() => { }} />;
   };
 
   onPressEnter = () => {
-    this.commit({key: 'Enter'});
+    this.commit({ key: 'Enter' });
   };
 
   onPressTab = () => {
-    this.commit({key: 'Tab'});
+    this.commit({ key: 'Tab' });
   };
 
   onPressEscape = (e: SyntheticKeyboardEvent) => {
@@ -191,16 +191,25 @@ class EditorContainer extends React.Component {
   };
 
   getInitialValue = (): string => {
-    let selected = this.props.cellMetaData.selected;
-    let keyCode = selected.initialKeyCode;
-    if (keyCode === 'Delete' || keyCode === 'Backspace') {
-      return '';
-    } else if (keyCode === 'Enter') {
-      return this.props.value;
+    const selected = this.props.cellMetaData.selected;
+    const keyCode = selected.initialKeyCode;
+    const editor = this.props.column.editor;
+
+    if (keyCode && typeof keyCode === 'number') {
+      return String.fromCharCode(keyCode);
     }
 
-    let text = keyCode ? String.fromCharCode(keyCode) : this.props.value;
-    return text;
+    if (keyCode && typeof keyCode === 'string') {
+      if (
+        editor &&
+        React.isValidElement(editor) &&
+        editor.type.prototype.getInitialValue
+      ) {
+        return editor.type.prototype.getInitialValue(keyCode, this.props.value);
+      }
+    }
+
+    return this.props.value;
   };
 
   getContainerClass = () => {
@@ -209,13 +218,13 @@ class EditorContainer extends React.Component {
     });
   };
 
-  commit = (args: {key : string}) => {
+  commit = (args: { key: string }) => {
     let opts = args || {};
     let updated = this.getEditor().getValue();
     if (this.isNewValueValid(updated)) {
       this.changeCommitted = true;
       let cellKey = this.props.column.key;
-      this.props.cellMetaData.onCommit({cellKey: cellKey, rowIdx: this.props.rowIdx, updated: updated, key: opts.key});
+      this.props.cellMetaData.onCommit({ cellKey: cellKey, rowIdx: this.props.rowIdx, updated: updated, key: opts.key });
     }
   };
 
@@ -227,7 +236,7 @@ class EditorContainer extends React.Component {
   isNewValueValid = (value: string): boolean => {
     if (isFunction(this.getEditor().validate)) {
       let isValid = this.getEditor().validate(value);
-      this.setState({isInvalid: !isValid});
+      this.setState({ isInvalid: !isValid });
       return isValid;
     }
 
@@ -276,8 +285,8 @@ class EditorContainer extends React.Component {
 
   getRelatedTarget = (e) => {
     return e.relatedTarget ||
-            e.explicitOriginalTarget ||
-            document.activeElement; // IE11
+      e.explicitOriginalTarget ||
+      document.activeElement; // IE11
   };
 
   handleRightClick = (e) => {
@@ -291,7 +300,7 @@ class EditorContainer extends React.Component {
     }
 
     if (!this.isBodyClicked(e)) {
-	    // prevent null reference
+      // prevent null reference
       if (this.isViewportClicked(e) || !this.isClickInsideEditor(e)) {
         this.commit(e);
       }
@@ -321,11 +330,11 @@ class EditorContainer extends React.Component {
 
   render(): ?ReactElement {
     return (
-        <div className={this.getContainerClass()} onBlur={this.handleBlur} onKeyDown={this.onKeyDown} onContextMenu={this.handleRightClick}>
-          {this.createEditor()}
-          {this.renderStatusIcon()}
-        </div>
-      );
+      <div className={this.getContainerClass()} onBlur={this.handleBlur} onKeyDown={this.onKeyDown} onContextMenu={this.handleRightClick}>
+        {this.createEditor()}
+        {this.renderStatusIcon()}
+      </div>
+    );
   }
 }
 
