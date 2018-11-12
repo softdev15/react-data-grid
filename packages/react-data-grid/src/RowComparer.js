@@ -24,10 +24,6 @@ export const shouldRowUpdate = (nextProps, currentProps) => {
     doesRowContainSelectedCell(nextProps) ||
     willRowBeDraggedOver(nextProps) ||
     nextProps.row !== currentProps.row ||
-    currentProps.colDisplayStart !== nextProps.colDisplayStart ||
-    currentProps.colDisplayEnd !== nextProps.colDisplayEnd ||
-    currentProps.colVisibleStart !== nextProps.colVisibleStart ||
-    currentProps.colVisibleEnd !== nextProps.colVisibleEnd ||
     hasRowBeenCopied(currentProps) ||
     currentProps.isSelected !== nextProps.isSelected ||
     nextProps.height !== currentProps.height ||

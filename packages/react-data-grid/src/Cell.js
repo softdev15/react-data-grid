@@ -118,13 +118,6 @@ class Cell extends React.Component {
     }
   };
 
-  onCellContextMenu = () => {
-    let meta = this.props.cellMetaData;
-    if (meta != null && meta.onCellContextMenu && typeof (meta.onCellContextMenu) === 'function') {
-      meta.onCellContextMenu({ rowIdx: this.props.rowIdx, idx: this.props.idx });
-    }
-  };
-
   onCellDoubleClick = (e) => {
     let meta = this.props.cellMetaData;
     if (meta != null && meta.onCellDoubleClick && typeof (meta.onCellDoubleClick) === 'function') {
@@ -476,7 +469,6 @@ class Cell extends React.Component {
       onClick: this.onCellClick,
       onFocus: this.onCellFocus,
       onDoubleClick: this.onCellDoubleClick,
-      onContextMenu: this.onCellContextMenu,
       onDragOver: this.onDragOver
     };
 

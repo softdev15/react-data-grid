@@ -75,10 +75,8 @@ class ReactDataGrid extends React.Component {
     onGridRowsUpdated: PropTypes.func,
     onRowSelect: PropTypes.func,
     rowKey: PropTypes.string,
-    rowScrollTimeout: PropTypes.number,
     scrollToRowIndex: PropTypes.number,
     onClearFilters: PropTypes.func,
-    contextMenu: PropTypes.element,
     cellNavigationMode: PropTypes.oneOf(['none', 'loopOverRow', 'changeRow']),
     onCellSelected: PropTypes.func,
     onCellDeSelected: PropTypes.func,
@@ -135,7 +133,6 @@ class ReactDataGrid extends React.Component {
     enableRowSelect: false,
     minHeight: 350,
     rowKey: 'id',
-    rowScrollTimeout: 0,
     scrollToRowIndex: 0,
     cellNavigationMode: 'none',
     overScan: {
@@ -317,12 +314,6 @@ class ReactDataGrid extends React.Component {
     return previouslySelected.rowIdx !== selected.rowIdx || previouslySelected.idx !== selected.idx || previouslySelected.active === false;
   };
 
-  onContextMenuHide = () => {
-    document.removeEventListener('click', this.onContextMenuHide);
-    let newSelected = Object.assign({}, this.state.selected, {contextMenuDisplayed: false});
-    this.setState({selected: newSelected});
-  };
-
   onColumnEvent = (ev :SyntheticEvent, columnEvent: ColumnEvent) => {
     let {idx, name} = columnEvent;
 
@@ -379,13 +370,6 @@ class ReactDataGrid extends React.Component {
 
   onCellFocus = (cell: SelectedType) => {
     this.onSelect(cell);
-  };
-
-  onCellContextMenu = (cell: SelectedType) => {
-    this.onSelect({rowIdx: cell.rowIdx, idx: cell.idx, contextMenuDisplayed: this.props.contextMenu});
-    if (this.props.contextMenu) {
-      document.addEventListener('click', this.onContextMenuHide);
-    }
   };
 
   onCellDoubleClick = (cell: SelectedType, e: SyntheticEvent) => {
@@ -1194,7 +1178,6 @@ class ReactDataGrid extends React.Component {
       hoveredRowIdx: this.state.hoveredRowIdx,
       onCellClick: this.onCellClick,
       onCellFocus: this.onCellFocus,
-      onCellContextMenu: this.onCellContextMenu,
       onCellDoubleClick: this.onCellDoubleClick,
       onCommit: this.onCellCommit,
       onCommitCancel: this.setInactive,
@@ -1265,9 +1248,7 @@ class ReactDataGrid extends React.Component {
             onViewportClick={this.deselect}
             onViewportDoubleClick={this.deselect}
             onColumnResize={this.onColumnResize}
-            rowScrollTimeout={this.props.rowScrollTimeout}
             scrollToRowIndex={this.props.scrollToRowIndex}
-            contextMenu={this.props.contextMenu}
             overScan={this.props.overScan}
           />
         </div>

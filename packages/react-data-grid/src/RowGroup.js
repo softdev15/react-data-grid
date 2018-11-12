@@ -57,11 +57,6 @@ RowGroup.propTypes = {
   extraClasses: PropTypes.string,
   forceUpdate: PropTypes.bool,
   subRowDetails: PropTypes.object,
-  isRowHovered: PropTypes.bool,
-  colVisibleStart: PropTypes.number.isRequired,
-  colVisibleEnd: PropTypes.number.isRequired,
-  colDisplayStart: PropTypes.number.isRequired,
-  colDisplayEnd: PropTypes.number.isRequired,
   isScrolling: PropTypes.bool.isRequired,
   columnGroupKey: PropTypes.string.isRequired,
   columnGroupName: PropTypes.string.isRequired,
@@ -71,35 +66,37 @@ RowGroup.propTypes = {
   renderer: PropTypes.func
 };
 
-const  DefaultRowGroupRenderer = (props) => {
-  let treeDepth = props.treeDepth || 0;
-  let marginLeft = treeDepth * 20;
+class DefaultRowGroupRenderer extends React.PureComponent {
+  render() {
+    let treeDepth = this.props.treeDepth || 0;
+    let marginLeft = treeDepth * 20;
 
-  let style = {
-    height: '50px',
-    border: '1px solid #dddddd',
-    paddingTop: '15px',
-    paddingLeft: '5px'
-  };
+    let style = {
+      height: '50px',
+      border: '1px solid #dddddd',
+      paddingTop: '15px',
+      paddingLeft: '5px'
+    };
 
-  let onKeyDown = (e) => {
-    if (e.key === 'ArrowLeft') {
-      props.onRowExpandToggle(false);
-    }
-    if (e.key === 'ArrowRight') {
-      props.onRowExpandToggle(true);
-    }
-    if (e.key === 'Enter') {
-      props.onRowExpandToggle(!props.isExpanded);
-    }
-  };
-  return (
-    <div style={style} onKeyDown={onKeyDown} tabIndex={0}>
-      <span className="row-expand-icon" style={{float: 'left', marginLeft: marginLeft, cursor: 'pointer'}} onClick={props.onRowExpandClick} >{props.isExpanded ? String.fromCharCode('9660') : String.fromCharCode('9658')}</span>
-      <strong>{props.columnGroupName}: {props.name}</strong>
-    </div>
-  );
-};
+    let onKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        this.props.onRowExpandToggle(false);
+      }
+      if (e.key === 'ArrowRight') {
+        this.props.onRowExpandToggle(true);
+      }
+      if (e.key === 'Enter') {
+        this.props.onRowExpandToggle(!this.props.isExpanded);
+      }
+    };
+    return (
+      <div style={style} onKeyDown={onKeyDown} tabIndex={0}>
+        <span className="row-expand-icon" style={{ float: 'left', marginLeft: marginLeft, cursor: 'pointer' }} onClick={this.props.onRowExpandClick} >{this.props.isExpanded ? String.fromCharCode('9660') : String.fromCharCode('9658')}</span>
+        <strong>{this.props.columnGroupName}: {this.props.name}</strong>
+      </div>
+    );
+  }
+}
 
 DefaultRowGroupRenderer.propTypes = {
   onRowExpandClick: PropTypes.func.isRequired,

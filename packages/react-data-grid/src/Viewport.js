@@ -40,9 +40,7 @@ class Viewport extends React.Component {
     minHeight: PropTypes.number,
     cellMetaData: PropTypes.shape(cellMetaDataShape),
     rowKey: PropTypes.string.isRequired,
-    rowScrollTimeout: PropTypes.number,
     scrollToRowIndex: PropTypes.number,
-    contextMenu: PropTypes.element,
     getSubRowDetails: PropTypes.func,
     rowGroupRenderer: PropTypes.func
   };
@@ -56,9 +54,7 @@ class Viewport extends React.Component {
   onScroll = (scroll: {scrollTop: number; scrollLeft: number}) => {
     this.updateScroll(
       scroll.scrollTop, scroll.scrollLeft,
-      this.state.height,
-      this.props.rowHeight,
-      this.props.rowsCount
+      this.state.height
     );
 
     if (this.props.onScroll) {
@@ -103,37 +99,26 @@ class Viewport extends React.Component {
     scrollTop: number,
     scrollLeft: number,
     height: number,
-    rowHeight: number,
-    length: number,
-    width,
   ) => {
     this.resetScrollStateAfterDelay();
-    const nextScrollState = getNextScrollState(this.props, this.getDOMNodeOffsetWidth, scrollTop, scrollLeft, height, rowHeight, length, width);
+    const nextScrollState = getNextScrollState(scrollTop, scrollLeft, height);
 
     this.setState(nextScrollState);
   };
 
   metricsUpdated = () => {
     let height = this.viewportHeight();
-    let width = this.viewportWidth();
     if (height) {
       this.updateScroll(
         this.state.scrollTop,
         this.state.scrollLeft,
-        height,
-        this.props.rowHeight,
-        this.props.rowsCount,
-        width
+        height
       );
     }
   };
 
   viewportHeight = (): number => {
     return this.viewport ? this.viewport.offsetHeight : 0;
-  };
-
-  viewportWidth = (): number => {
-    return this.viewport ? this.viewport.offsetWidth : 0;
   };
 
   componentWillReceiveProps(
@@ -145,9 +130,7 @@ class Viewport extends React.Component {
       this.updateScroll(
         newState.scrollTop,
         newState.scrollLeft,
-        newState.height,
-        nextProps.rowHeight,
-        nextProps.rowsCount
+        newState.height
       );
     } else if (ColumnUtils.getSize(this.props.columnMetrics.columns) !== ColumnUtils.getSize(nextProps.columnMetrics.columns)) {
       this.setState(getGridState(nextProps));
@@ -155,9 +138,7 @@ class Viewport extends React.Component {
       this.updateScroll(
         this.state.scrollTop,
         this.state.scrollLeft,
-        this.state.height,
-        nextProps.rowHeight,
-        nextProps.rowsCount
+        this.state.height
       );
       // Added to fix the hiding of the bottom scrollbar when showing the filters.
     } else if (this.props.rowOffsetHeight !== nextProps.rowOffsetHeight) {
@@ -167,9 +148,7 @@ class Viewport extends React.Component {
       this.updateScroll(
         this.state.scrollTop,
         this.state.scrollLeft,
-        this.state.height + height,
-        nextProps.rowHeight,
-        nextProps.rowsCount
+        this.state.height + height
       );
     }
   }
@@ -214,22 +193,12 @@ class Viewport extends React.Component {
           expandedRows={this.props.expandedRows}
           columns={this.props.columnMetrics.columns}
           rowRenderer={this.props.rowRenderer}
-          displayStart={this.state.displayStart}
-          displayEnd={this.state.displayEnd}
-          visibleStart={this.state.visibleStart}
-          visibleEnd={this.state.visibleEnd}
-          colVisibleStart={this.state.colVisibleStart}
-          colVisibleEnd={this.state.colVisibleEnd}
-          colDisplayStart={this.state.colDisplayStart}
-          colDisplayEnd={this.state.colDisplayEnd}
           cellMetaData={this.props.cellMetaData}
           height={this.state.height}
           rowHeight={this.props.rowHeight}
           onScroll={this.onScroll}
           onRows={this.props.onRows}
-          rowScrollTimeout={this.props.rowScrollTimeout}
           scrollToRowIndex={this.props.scrollToRowIndex}
-          contextMenu={this.props.contextMenu}
           rowSelection={this.props.rowSelection}
           getSubRowDetails={this.props.getSubRowDetails}
           rowGroupRenderer={this.props.rowGroupRenderer}

@@ -220,7 +220,7 @@ class EditorContainer extends React.Component {
       let cellKey = this.props.column.key;
       this.props.cellMetaData.onCommit({cellKey: cellKey, rowIdx: this.props.rowIdx, updated: updated, key: opts.key});
     }
-    
+
     if (opts.moveSelectedCell) {
       this.props.cellMetaData.onMoveSelectedCell(null, 0, 1);
     }
@@ -287,10 +287,6 @@ class EditorContainer extends React.Component {
             document.activeElement; // IE11
   };
 
-  handleRightClick = (e) => {
-    e.stopPropagation();
-  };
-
   handleBlur = (e) => {
     e.stopPropagation();
     if (this.isBodyClicked(e)) {
@@ -328,7 +324,7 @@ class EditorContainer extends React.Component {
 
   render(): ?ReactElement {
     return (
-        <div className={this.getContainerClass()} onBlur={this.handleBlur} onKeyDown={this.onKeyDown} onContextMenu={this.handleRightClick}>
+        <div className={this.getContainerClass()} onBlur={this.handleBlur} onKeyDown={this.onKeyDown}>
           {this.createEditor()}
           {this.renderStatusIcon()}
         </div>
