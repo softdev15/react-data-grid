@@ -75,6 +75,7 @@ class ReactDataGrid extends React.Component {
     onGridRowsUpdated: PropTypes.func,
     onRowSelect: PropTypes.func,
     rowKey: PropTypes.string,
+    rowScrollTimeout: PropTypes.number,
     scrollToRowIndex: PropTypes.number,
     onClearFilters: PropTypes.func,
     cellNavigationMode: PropTypes.oneOf(['none', 'loopOverRow', 'changeRow']),
@@ -133,6 +134,7 @@ class ReactDataGrid extends React.Component {
     enableRowSelect: false,
     minHeight: 350,
     rowKey: 'id',
+    rowScrollTimeout: 0,
     scrollToRowIndex: 0,
     cellNavigationMode: 'none',
     overScan: {
@@ -1248,6 +1250,7 @@ class ReactDataGrid extends React.Component {
             onViewportClick={this.deselect}
             onViewportDoubleClick={this.deselect}
             onColumnResize={this.onColumnResize}
+            rowScrollTimeout={this.props.rowScrollTimeout}
             scrollToRowIndex={this.props.scrollToRowIndex}
             overScan={this.props.overScan}
           />

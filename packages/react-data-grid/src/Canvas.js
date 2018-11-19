@@ -22,6 +22,14 @@ class Canvas extends React.Component {
     totalWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.string,
     className: PropTypes.string,
+    displayStart: PropTypes.number.isRequired,
+    displayEnd: PropTypes.number.isRequired,
+    visibleStart: PropTypes.number.isRequired,
+    visibleEnd: PropTypes.number.isRequired,
+    colVisibleStart: PropTypes.number.isRequired,
+    colVisibleEnd: PropTypes.number.isRequired,
+    colDisplayStart: PropTypes.number.isRequired,
+    colDisplayEnd: PropTypes.number.isRequired,
     rowsCount: PropTypes.number.isRequired,
     rowGetter: PropTypes.oneOfType([
       PropTypes.func.isRequired,
@@ -34,6 +42,7 @@ class Canvas extends React.Component {
     cellMetaData: PropTypes.shape(cellMetaDataShape).isRequired,
     selectedRows: PropTypes.array,
     rowKey: PropTypes.string,
+    rowScrollTimeout: PropTypes.number,
     scrollToRowIndex: PropTypes.number,
     getSubRowDetails: PropTypes.func,
     rowSelection: PropTypes.oneOfType([
@@ -58,10 +67,13 @@ class Canvas extends React.Component {
   static defaultProps = {
     rowRenderer: Row,
     onRows: () => { },
-    selectedRows: []
+    selectedRows: [],
+    rowScrollTimeout: 0
   };
 
   state = {
+    displayStart: this.props.displayStart,
+    displayEnd: this.props.displayEnd,
     scrollingTimeout: null
   };
 
@@ -112,8 +124,20 @@ class Canvas extends React.Component {
     this.onRows();
   }
 
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.displayStart !== this.state.displayStart
+      || nextProps.displayEnd !== this.state.displayEnd) {
+      this.setState({
+        displayStart: nextProps.displayStart,
+        displayEnd: nextProps.displayEnd
+      });
+    }
+  }
+
   shouldComponentUpdate(nextProps: any, nextState: any): boolean {
-    let shouldUpdate = nextState.scrollingTimeout !== this.state.scrollingTimeout
+    let shouldUpdate = nextState.displayStart !== this.state.displayStart
+      || nextState.displayEnd !== this.state.displayEnd
+      || nextState.scrollingTimeout !== this.state.scrollingTimeout
       || this.props.scrollToRowIndex !== nextProps.scrollToRowIndex
       || nextProps.rowsCount !== this.props.rowsCount
       || nextProps.rowHeight !== this.props.rowHeight
@@ -121,6 +145,10 @@ class Canvas extends React.Component {
       || nextProps.width !== this.props.width
       || nextProps.height !== this.props.height
       || nextProps.cellMetaData !== this.props.cellMetaData
+      || this.props.colDisplayStart !== nextProps.colDisplayStart
+      || this.props.colDisplayEnd !== nextProps.colDisplayEnd
+      || this.props.colVisibleStart !== nextProps.colVisibleStart
+      || this.props.colVisibleEnd !== nextProps.colVisibleEnd
       || !shallowEqual(nextProps.style, this.props.style)
       || this.props.isScrolling !== nextProps.isScrolling;
     return shouldUpdate;
@@ -164,13 +192,14 @@ class Canvas extends React.Component {
     this.props.onScroll(scroll);
   };
 
-  getRows = () => {
+  getRows = (displayStart, displayEnd) => {
+    this._currentRowsRange = { start: displayStart, end: displayEnd };
     if (Array.isArray(this.props.rowGetter)) {
-      return this.props.rowGetter.slice();
+      return this.props.rowGetter.slice(displayStart, displayEnd);
     }
     let rows = [];
-    let i = 0;
-    while (i < this.props.rowsCount) {
+    let i = displayStart;
+    while (i < displayEnd) {
       let row = this.props.rowGetter(i);
       let subRowDetails = {};
       if (this.props.getSubRowDetails) {
@@ -257,26 +286,55 @@ class Canvas extends React.Component {
     }
   };
 
-  render() {
-    const { rowHeight } = this.props;
+  renderPlaceholder = (key: string, height: number) => {
+    // just renders empty cells
+    // if we wanted to show gridlines, we'd need classes and position as with renderScrollingPlaceholder
+    return (<div key={key} style={{ height: height }}>
+      {
+        this.props.columns.map(
+          (column, idx) => <div style={{ width: column.width }} key={idx} />
+        )
+      }
+    </div >
+    );
+  };
 
-    let rows = this.getRows()
+  render() {
+    const { displayStart, displayEnd } = this.state;
+    const { rowHeight, rowsCount } = this.props;
+
+    let rows = this.getRows(displayStart, displayEnd)
       .map((r, idx) => this.renderRow({
-        key: `row-${idx}`,
+        key: `row-${displayStart + idx}`,
         ref: (node) => this.rows[idx] = node,
-        idx,
+        idx: displayStart + idx,
+        visibleStart: this.props.visibleStart,
+        visibleEnd: this.props.visibleEnd,
         row: r.row,
         height: rowHeight,
         onMouseOver: this.onMouseOver,
         columns: this.props.columns,
-        isSelected: this.isRowSelected(idx, r.row),
+        isSelected: this.isRowSelected(displayStart + idx, r.row, displayStart, displayEnd),
         expandedRows: this.props.expandedRows,
         cellMetaData: this.props.cellMetaData,
         subRowDetails: r.subRowDetails,
+        colVisibleStart: this.props.colVisibleStart,
+        colVisibleEnd: this.props.colVisibleEnd,
+        colDisplayStart: this.props.colDisplayStart,
+        colDisplayEnd: this.props.colDisplayEnd,
         isScrolling: this.props.isScrolling
       }));
 
     this._currentRowsLength = rows.length;
+
+    if (displayStart > 0) {
+      rows.unshift(this.renderPlaceholder('top', displayStart * rowHeight));
+    }
+
+    if (rowsCount - displayEnd > 0) {
+      rows.push(
+        this.renderPlaceholder('bottom', (rowsCount - displayEnd) * rowHeight));
+    }
 
     let style = {
       position: 'absolute',

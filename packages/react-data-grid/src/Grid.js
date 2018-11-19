@@ -52,6 +52,7 @@ class Grid extends React.Component {
     onHeaderDrop: PropTypes.func,
     cellMetaData: PropTypes.shape(cellMetaDataShape),
     rowKey: PropTypes.string.isRequired,
+    rowScrollTimeout: PropTypes.number,
     scrollToRowIndex: PropTypes.number,
     getSubRowDetails: PropTypes.func,
     draggableHeaderCell: PropTypes.func,
@@ -168,6 +169,7 @@ class Grid extends React.Component {
                   cellMetaData={this.props.cellMetaData}
                   rowOffsetHeight={this.props.rowOffsetHeight || this.props.rowHeight * headerRows.length}
                   minHeight={this.props.minHeight}
+                  rowScrollTimeout={this.props.rowScrollTimeout}
                   scrollToRowIndex={this.props.scrollToRowIndex}
                   rowSelection={this.props.rowSelection}
                   getSubRowDetails={this.props.getSubRowDetails}

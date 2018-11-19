@@ -1,3 +1,4 @@
+import OverflowCell from './OverflowCell';
 import rowComparer from './RowComparer';
 const React = require('react');
 import PropTypes from 'prop-types';
@@ -32,6 +33,10 @@ class Row extends React.Component {
     extraClasses: PropTypes.string,
     forceUpdate: PropTypes.bool,
     subRowDetails: PropTypes.object,
+    colVisibleStart: PropTypes.number.isRequired,
+    colVisibleEnd: PropTypes.number.isRequired,
+    colDisplayStart: PropTypes.number.isRequired,
+    colDisplayEnd: PropTypes.number.isRequired,
     isScrolling: PropTypes.bool.isRequired
   };
 
@@ -71,9 +76,13 @@ class Row extends React.Component {
 
   getCell = (column, i, selectedColumn) => {
     let CellRenderer = this.props.cellRenderer;
-    const { idx, cellMetaData } = this.props;
-    const { key, formatter } = column;
+    const { colVisibleStart, colVisibleEnd, idx, cellMetaData } = this.props;
+    const { key, formatter, locked } = column;
     const baseCellProps = { key: `${key}-${idx}`, idx: i, rowIdx: idx, height: this.getRowHeight(), column, cellMetaData };
+
+    if ((i < colVisibleStart || i > colVisibleEnd) && !locked) {
+      return <OverflowCell ref={(node) => this[key] = node} {...baseCellProps} />;
+    }
 
     const { row, isSelected } = this.props;
     const cellProps = {
