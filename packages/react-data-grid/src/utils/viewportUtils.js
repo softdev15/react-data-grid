@@ -26,10 +26,7 @@ function getGridState(props) {
 }
 
 function getRenderedColumnCount(props, getDOMNodeOffsetWidth, displayStart, width) {
-  let remainingWidth = width && width > 0 ? width : props.columnMetrics.totalWidth;
-  if (remainingWidth === 0) {
-    remainingWidth = getDOMNodeOffsetWidth();
-  }
+  let remainingWidth = width && width > 0 ? width : getDOMNodeOffsetWidth();
   let columnIndex = displayStart;
   let columnCount = 0;
   while (remainingWidth > 0) {
